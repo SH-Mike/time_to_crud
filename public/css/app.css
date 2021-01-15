@@ -1,0 +1,22 @@
+.container-wrapper {
+  margin: 1em auto;
+  max-width: 800px;
+  width: 95%;
+  font: 18px/1.5 sans-serif;
+}
+
+.underlined {
+  text-decoration: underline;
+}
+
+.bottom-fixed-footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+}
+
+.font-white {
+  color: white;
+}
