@@ -20,3 +20,8 @@
 .font-white {
   color: white;
 }
+
+.logo-medium {
+  max-width: 64px;
+  max-height: 64px;
+}
