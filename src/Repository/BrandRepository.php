@@ -25,8 +25,6 @@ class BrandRepository extends ServiceEntityRepository
     public function searchBrands($search_category, $search_text)
     {
         $query_builder =  $this->createQueryBuilder('b');
-        dump($search_category);
-        dump($search_text);
         switch ($search_category) {
             case 0:
                 $query_builder->andWhere('b.name LIKE :name')

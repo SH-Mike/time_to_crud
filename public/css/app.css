@@ -26,6 +26,6 @@
   max-height: 64px;
 }
 
-.justify-right{
-  justify-content: right;
+.text-right {
+  text-align: right !important
 }
