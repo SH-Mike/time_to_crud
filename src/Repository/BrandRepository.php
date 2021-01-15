@@ -19,6 +19,37 @@ class BrandRepository extends ServiceEntityRepository
         parent::__construct($registry, Brand::class);
     }
 
+    /**
+     * @return Brand[] Returns an array of Brand objects following the searching parameters
+     */
+    public function searchBrands($search_category, $search_text)
+    {
+        $query_builder =  $this->createQueryBuilder('b');
+        dump($search_category);
+        dump($search_text);
+        switch ($search_category) {
+            case 0:
+                $query_builder->andWhere('b.name LIKE :name')
+                ->setParameter('name', '%'.$search_text.'%')
+                ;
+                break;
+            case 1:
+                $query_builder->andWhere('b.nationality LIKE :nationality')
+                ->setParameter('nationality', '%'.$search_text.'%')
+                ;
+                break;
+            case 2:
+                $query_builder->andWhere('b.slogan LIKE :slogan')
+                ->setParameter('slogan', '%'.$search_text.'%')
+                ;
+                break;
+        }
+
+        return $query_builder->orderBy('b.name', 'ASC')
+        ->getQuery()
+        ->getResult();
+    }
+
     // /**
     //  * @return Brand[] Returns an array of Brand objects
     //  */
