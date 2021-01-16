@@ -8,7 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class SearchType extends ApplicationType
+class BrandSearchType extends ApplicationType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -21,8 +21,7 @@ class SearchType extends ApplicationType
                 ]
             ]))
             ->add('search_text', TextType::class, $this->getConfiguration('Recherche textuelle', 'Tapez votre recherche'))
-            ->add('submit', SubmitType::class, $this->getConfiguration('Rechercher',''))
-        ;
+            ->add('submit', SubmitType::class, $this->getConfiguration('Rechercher', ''));
     }
 
     public function configureOptions(OptionsResolver $resolver)

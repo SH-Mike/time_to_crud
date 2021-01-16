@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Brand;
 use App\Form\BrandType;
-use App\Form\SearchType;
+use App\Form\BrandSearchType;
 use Cocur\Slugify\Slugify;
 use App\Repository\BrandRepository;
 use Doctrine\Persistence\ObjectManager;
@@ -26,7 +26,7 @@ class BrandController extends AbstractController
     public function index(BrandRepository $brandRepository, Request $request): Response
     {
         // Form creation
-        $searchForm = $this->createForm(SearchType::class);
+        $searchForm = $this->createForm(BrandSearchType::class);
 
         // Request handling to check if the form has been submitted
         $searchForm->handleRequest($request);
