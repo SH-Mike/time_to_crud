@@ -31,8 +31,8 @@ class BrandController extends AbstractController
         // Request handling to check if the form has been submitted
         $searchForm->handleRequest($request);
         if ($searchForm->isSubmitted() && $searchForm->isValid()) {
-            $search_category = $request->request->get('search')['search_category'];
-            $search_text = $request->request->get('search')['search_text'];
+            $search_category = $request->request->get('brand_search')['search_category'];
+            $search_text = $request->request->get('brand_search')['search_text'];
             // Using the parameters from the request, we search specific brands
             $brands = $brandRepository->searchBrands($search_category, $search_text);
         } else {
@@ -68,6 +68,7 @@ class BrandController extends AbstractController
             $manager->flush();
             // Adding a flash message to inform the user
             $this->addFlash('success', "Votre marque {$brand->getName()} a bien été ajoutée");
+            return $this->redirectToRoute('brand_index');
         }
         return $this->render('brand/add.html.twig', [
             'addForm' => $addForm->createView(),

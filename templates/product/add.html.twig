@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Products add
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h1 class="text-center underlined">Ajouter un produit</h1>
+		<div class="text-center mt-3"> Utiliser le formulaire ci-dessous pour ajouter un produit. </div>
+        {{form_start(addForm)}}
+            <div class='row mt-5'>
+                <div class='col-md-6'>
+                    {{form_row(addForm.name)}}
+                    {{form_row(addForm.creationDate)}}
+                    {{form_row(addForm.price)}}
+                </div>
+                <div class='col-md-6'>
+                    {{form_row(addForm.description)}}
+                    {{form_row(addForm.brand)}}
+                </div>
+                <div class="mt-3">
+                    {{form_row(addForm.submit)}}
+                </div>
+            </div>
+        {{form_end(addForm)}}
+	</div>
+{% endblock %}

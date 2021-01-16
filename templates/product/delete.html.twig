@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Products delete
+{% endblock %}
+
+{% block body %}
+	<div class="container text-center">
+		<h1 class="text-center underlined">Supprimer le produit
+			{{product.name}}
+			?</h1>
+
+			Pour rappel, voici le produit que vous comptez supprimer :
+			<div class="card mx-auto card-width">
+				<div class="card-body">
+					<h5 class="card-title">{{product.name}}, Marque: {{product.brand.name}}</h5>
+					<h6 class="card-subtitle mb-2 text-muted">{{product.creationDate | date("Y-m-d")}}</h6>
+					<p class="card-text text-center">{{product.description}}</p>
+				</div>
+			</div>
+		</p>
+		<div class="row">
+			<a href="{{ path('product_delete', {'product': product.id, 'confirm': true})}}" class="btn btn-danger">
+				<i class='fas fa-trash'>
+					Supprimer définitivement ce produit
+				</i>
+			</a>
+		</div>
+	</div>
+{% endblock %}
