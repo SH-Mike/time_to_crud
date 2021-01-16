@@ -26,6 +26,15 @@
   max-height: 64px;
 }
 
+.logo-large {
+  max-width: 256px;
+  max-height: 256px;
+}
+
 .text-right {
   text-align: right !important
+}
+
+.card-width {
+  width: 18rem;
 }

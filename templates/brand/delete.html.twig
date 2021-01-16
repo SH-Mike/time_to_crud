@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Brands delete
+{% endblock %}
+
+{% block body %}
+	<div class="container text-center">
+		<h1 class="text-center underlined">Supprimer la marque
+			{{brand.name}}
+			?</h1>
+		<div class="alert alert-warning mt-3">
+			Attention. Supprimer cette marque engendrera la suppression de tous les produits qui lui sont associés.</div>
+		<p>
+			Pour rappel, voici la marque que vous comptez supprimer :
+			<div class="card mx-auto card-width">
+				<div class="card-body">
+					<p class="card-text text-center"><img src="{{brand.logo}}" alt="Logo {{brand.name}}" title="{{brand.name}}" class="logo-large"></p>
+					<h5 class="card-title">{{brand.name}}</h5>
+					<h6 class="card-subtitle mb-2 text-muted">{{brand.creationDate | date("Y-m-d")}}</h6>
+				</div>
+			</div>
+		</p>
+		<div class="row">
+			<a href="{{ path('brand_delete', {'brand': brand.id, 'confirm': true})}}" class="btn btn-danger">
+				<i class='fas fa-trash'>
+					Supprimer définitivement cette marque
+				</i>
+			</a>
+		</div>
+	</div>
+{% endblock %}

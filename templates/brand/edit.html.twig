@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Brands edit
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h1 class="text-center underlined">Modifier la marque - {{brand.name}}</h1>
+		<div class="text-center mt-3"> Utiliser le formulaire ci-dessous pour modifier la marque {{brand.name}}. </div>
+        {{form_start(editForm)}}
+            <div class='row mt-5'>
+                <div class='col-md-6'>
+                    {{form_row(editForm.name)}}
+                    {{form_row(editForm.logo)}}
+                    {{form_row(editForm.creationDate)}}
+                </div>
+                <div class='col-md-6'>
+                    {{form_row(editForm.nationality)}}
+                    {{form_row(editForm.slogan)}}
+                    {{form_row(editForm.website)}}
+                </div>
+                <div class="mt-3">
+                    {{form_row(editForm.submit)}}
+                </div>
+            </div>
+        {{form_end(editForm)}}
+	</div>
+{% endblock %}

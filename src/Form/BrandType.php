@@ -28,7 +28,7 @@ class BrandType extends ApplicationType
             ->add('website', TextType::class, $this->getConfiguration('Site web', 'Veuillez entrer une URL valide vers le site web de la marque', [
                 'required' => false,
             ]))
-            ->add('submit', SubmitType::class, $this->getConfiguration('Ajouter',''))
+            ->add('submit', SubmitType::class, $this->getConfiguration('Envoyer',''))
         ;
     }
 
