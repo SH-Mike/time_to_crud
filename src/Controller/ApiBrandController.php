@@ -122,7 +122,7 @@ class ApiBrandController extends AbstractController
             return new Response($e->getMessage(), 500);
         }
 
-        return new Response('ok', 201);
+        return new Response("La marque {$brand->getName()} a bien été ajoutée", 201);
     }
 
     /**
