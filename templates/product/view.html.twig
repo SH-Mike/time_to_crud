@@ -25,7 +25,7 @@
 						<strong>{{product.description}}</strong>
 						<br/>
 						Prix:
-						<strong>{{product.price | number_format(2,'.',',')}}</strong>
+						<strong>{{product.price | number_format(2,'.',',')}}€</strong>
 						<br/>
                         Marque:
                         <strong><a href="{{path('brand_view', {'brand':product.brand.id})}}">{{product.brand.name}}</a>
