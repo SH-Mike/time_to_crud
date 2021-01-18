@@ -16,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class BrandController extends AbstractController
 {
     /**
-     * Shows the list of brands, with or without searching
+     * Shows a list of Brands, with or without searching
      * 
      * @param BrandRepository $brandRepository
      * @param Request $request
@@ -33,7 +33,7 @@ class BrandController extends AbstractController
         if ($searchForm->isSubmitted() && $searchForm->isValid()) {
             $search_category = $request->request->get('brand_search')['search_category'];
             $search_text = $request->request->get('brand_search')['search_text'];
-            // Using the parameters from the request, we search specific brands
+            // Using the parameters from the request, we search specific Brands
             $brands = $brandRepository->searchBrands($search_category, $search_text);
         } else {
             $brands = $brandRepository->findAll();
@@ -45,7 +45,7 @@ class BrandController extends AbstractController
     }
 
     /**
-     * Adds a brand to the database form the form submitted
+     * Adds a Brand to the database form the form submitted
      * 
      * @param Request $request
      * @return Response
@@ -76,7 +76,7 @@ class BrandController extends AbstractController
     }
 
     /**
-     * Modify a given brand from the submitted form
+     * Modify a given Brand from the submitted form
      * 
      * @param Request $request
      * @param Brand $brand
@@ -85,6 +85,7 @@ class BrandController extends AbstractController
      */
     public function editBrand(Request $request, Brand $brand = null)
     {
+        // If Brand not found, then we redirect the user to the Brands index page
         if ($brand == null) {
             $this->addFlash('danger', "La marque que vous essayez de modifier n'existe pas");
             return $this->redirectToRoute("brand_index");
@@ -112,7 +113,7 @@ class BrandController extends AbstractController
     }
 
     /**
-     * Delete a brand given in parameters
+     * Delete a given Brand according to parameters
      * 
      * @param Brand $brand
      * @return Response
@@ -120,16 +121,17 @@ class BrandController extends AbstractController
      */
     public function deleteBrand(Brand $brand = null, $confirm = false)
     {
+        // If Brand not found, then we redirect the user to the Brands index page
         if ($brand == null) {
             $this->addFlash('danger', "La marque que vous essayez de supprimer n'existe pas");
             return $this->redirectToRoute("brand_index");
         }
 
         if($confirm == true){
-            // Saving the brand's name to use it in the flash message
+            // Saving the Brand's name to use it in the flash message
             $formerBrandName = $brand->getName();
     
-            // Removing the brand from database
+            // Removing the Brand from database
             $manager = $this->getDoctrine()->getManager();
             $manager->remove($brand);
             $manager->flush();

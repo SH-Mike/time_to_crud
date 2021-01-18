@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ProductController extends AbstractController
 {
     /**
-     * Shows the list of product, with or without searching
+     * Shows a list of Products, with or without searching
      * 
      * @param ProductRepository $productRepository
      * @param Request $request
@@ -44,7 +44,7 @@ class ProductController extends AbstractController
     }
 
     /**
-     * Adds a product to the database form the form submitted
+     * Adds a Product to the database form the form submitted
      * 
      * @param Request $request
      * @return Response
@@ -75,7 +75,7 @@ class ProductController extends AbstractController
     }
 
     /**
-     * Modify a given product from the submitted form
+     * Modify a given Product from the submitted form
      * 
      * @param Request $request
      * @param Product $product
@@ -84,6 +84,7 @@ class ProductController extends AbstractController
      */
     public function editProduct(Request $request, Product $product = null)
     {
+        // If Product not found, then we redirect the user to the Products index page
         if ($product == null) {
             $this->addFlash('danger', "Le produit que vous essayez de modifier n'existe pas");
             return $this->redirectToRoute("product_index");
@@ -111,7 +112,7 @@ class ProductController extends AbstractController
     }
 
     /**
-     * Delete a product given in parameters
+     * Delete a Product given in parameters
      * 
      * @param Product $product
      * @return Response
@@ -119,16 +120,17 @@ class ProductController extends AbstractController
      */
     public function deleteProduct(Product $product = null, $confirm = false)
     {
+        // If Product not found, then we redirect the user to the Products index page
         if ($product == null) {
             $this->addFlash('danger', "La produit que vous essayez de supprimer n'existe pas");
             return $this->redirectToRoute("product_index");
         }
 
         if($confirm == true){
-            // Saving the product's name to use it in the flash message
+            // Saving the Product's name to use it in the flash message
             $formerProductName = $product->getName();
     
-            // Removing the product from database
+            // Removing the Product from database
             $manager = $this->getDoctrine()->getManager();
             $manager->remove($product);
             $manager->flush();
