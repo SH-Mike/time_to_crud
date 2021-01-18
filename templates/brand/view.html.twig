@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Brands view
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h1 class="text-center underlined">Détail de la marque -
+			{{brand.name}}</h1>
+		<div class="text-center mt-3">
+			Voici les informations de la marque:
+			{{brand.name}}.
+		</div>
+		<br/>
+		<div class="d-flex justify-content-center">
+			<div class="card card-width">
+				<img class="card-img-top" src="{{brand.logo}}" alt="Card image cap">
+				<div class="card-body">
+					<h5 class="card-title">{{brand.name}}</h5>
+					<p class="card-text">
+						Date de création:
+						<strong>{{brand.creationDate | date("d/m/Y")}}</strong>
+						<br/>
+						Nationalité:
+						<strong>{{brand.nationality}}</strong>
+						<br/>
+						Slogan:
+						<strong>{{brand.slogan}}</strong>
+						<br/>
+						Site web:
+						<strong>
+							<a href="{{brand.website}}">{{brand.name}}</a>
+						</strong>
+
+					</p>
+				</div>
+			</div>
+		</div>
+
+		{% if brand.products | length > 0 %}
+			<div class="table-responsive mt-5">
+				<table class="table table-hover table-stripped">
+					<thead class="thead-dark">
+						<tr>
+							<th>Nom</th>
+							<th>Date de création</th>
+							<th>Prix</th>
+							<th>Plus d'informations</th>
+							<th>-</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for product in brand.products %}
+							<tr>
+								<td>
+									<strong>{{product.name}}</strong>
+								</td>
+								<td>
+									{{product.creationDate | date("d/m/Y")}}
+								</td>
+								<td>
+									{{product.price|number_format(2, '.', ',')}}€
+								</td>
+								<td>
+									<i>{{product.description}}</i>
+									<br/>
+									Produit de la marque:
+									{{product.brand.name}}
+								</td>
+								<td>
+									<a href="{{ path('product_edit', {'product':product.id} ) }}" class="btn btn-warning">
+										<i class="fas fa-pen"></i>
+									</a>
+									<a href="{{ path('product_delete', {'product':product.id} ) }}" class="btn btn-danger">
+										<i class='fas fa-trash'></i>
+									</a>
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		{% endif %}
+	</div>
+{% endblock %}

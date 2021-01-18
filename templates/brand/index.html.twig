@@ -47,7 +47,7 @@
 									<image src="{{brand.logo}}" alt="Logo de la marque {{brand.name}}" class="logo-medium">
 								</td>
 								<td>
-									<strong>{{brand.name}}</strong>
+									<strong><a href="{{path('brand_view', {'brand':brand.id})}}">{{brand.name}}</a></strong>
 								</td>
 								<td>
 									{{brand.nationality}}

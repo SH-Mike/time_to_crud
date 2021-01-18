@@ -45,6 +45,27 @@ class BrandController extends AbstractController
     }
 
     /**
+     * Shows a detailled view of the Brand chosen
+     * 
+     * @param Brand $brand
+     * @return Response
+     * 
+     * @Route("/brand/view/{brand}", name="brand_view")
+     */
+    public function getBrand(Brand $brand = null){
+        // If Brand not found, then we redirect the user to the Brands index page
+        if ($brand == null) {
+            $this->addFlash('danger', "La marque que vous essayez de visionner n'existe pas");
+            return $this->redirectToRoute("brand_index");
+        }
+
+        return $this->render('brand/view.html.twig', [
+            'brand' => $brand
+        ]);
+    }
+
+
+    /**
      * Adds a Brand to the database form the form submitted
      * 
      * @param Request $request
