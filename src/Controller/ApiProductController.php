@@ -18,13 +18,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ApiProductController extends AbstractController
 {
     /**
-     * Api function to get all the products
+     * Api function to get all the Products
+     * 
+     * @param ProductRepository $productRepository
+     * @return Response
      * 
      * @Route("/api/products/list", name="api_products_list", methods={"GET"})
      */
     public function index(ProductRepository $productRepository): Response
     {
-        // Getting all the products
+        // Getting all the Products
         $products = $productRepository->findAll();
 
         // We use JSON Encoder
@@ -51,7 +54,7 @@ class ApiProductController extends AbstractController
     }
 
     /**
-     * Api function to get only one product
+     * Api function to get only one Product
      * 
      * @param Product $product
      * @return Response
@@ -60,6 +63,7 @@ class ApiProductController extends AbstractController
      */
     public function getSearchedProduct(Product $product = null): Response
     {
+        // We give a direct 404 Error if no Product found for that id
         if ($product == null) {
             $error = 404;
             return new Response('Le produit recherché n\'a pas été trouvé', $error);
@@ -89,7 +93,7 @@ class ApiProductController extends AbstractController
     }
 
     /**
-     * Api function to add a product
+     * Api function to add a Product
      * 
      * @param Request $request
      * @return Response
@@ -103,10 +107,10 @@ class ApiProductController extends AbstractController
 
         $slugify = new Slugify();
         $manager = $this->getDoctrine()->getManager();
-        // We decode the products received
+        // We decode the Product received
         $productData = json_decode($request->getContent());
 
-        // With the data form products, we hydrate our objects
+        // With the data from Product, we hydrate our object
         try {
             $product->setName($productData->name)
                 ->setPrice($productData->price)
@@ -116,13 +120,16 @@ class ApiProductController extends AbstractController
             if($brandRepository->findOneById($productData->brand) != null){
                 $product->setBrand($brandRepository->findOneById($productData->brand));
             } else {
+                // We return a not found error if no brand is found for the brand id given in Product data
                 return new Response('La marque à associer à ce produit n\'a pas été trouvée', 404);
             }
             $manager->persist($product);
             $manager->flush();
         } catch (Exception $e) {
+            // Data Exception
             return new Response('Les données saisies sont invalides', 500);
         } catch (\Exception $e) {
+            // Other Exceptions
             return new Response($e->getMessage(), 500);
         }
 
@@ -130,7 +137,7 @@ class ApiProductController extends AbstractController
     }
 
     /**
-     * Api function to edit a product and create it if not found
+     * Api function to edit a Product and create it if not found
      * 
      * @param Product $product
      * @param Request $request
@@ -141,23 +148,22 @@ class ApiProductController extends AbstractController
     public function editArticle(Product $product = null, Request $request, BrandRepository $brandRepository)
     {
 
-        // On décode les données envoyées
+        // We decode sent data
         $productData = json_decode($request->getContent());
         $slugify = new Slugify();
         $manager = $this->getDoctrine()->getManager();
 
-        // On initialise le code de réponse
+        // We initialize the return code
         $code = 200;
 
-        // Si l'product n'est pas trouvé
+        // If Product not found
         if ($product == null) {
-            // On instancie un nouvel product
+            // We create a new Product and change response code
             $product = new Product();
-            // On change le code de réponse
             $code = 201;
         }
 
-        // With the data form products, we hydrate our objects
+        // With the data from Product, we hydrate our object
         try {
             $product->setName($productData->name)
                 ->setPrice($productData->price)
@@ -172,27 +178,30 @@ class ApiProductController extends AbstractController
             $manager->persist($product);
             $manager->flush();
         } catch (Exception $e) {
+            // Data Exception
             return new Response('Les données saisies sont invalides', 500);
         } catch (\Exception $e) {
+            // Other Exceptions
             return new Response($e->getMessage(), 500);
         }
 
-        // On sauvegarde en base
+        // We save in database
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($product);
         $entityManager->flush();
 
+        // We initialize the message (edit or new Product)
         if($code == 200){
             $message = "Ce produit a bien été modifié";
         } else {
             $message = "Ce produit n'ayant pas été trouvé, il a été créé à la place";
         }
-        // On retourne la confirmation
+        // And we send the Response
         return new Response($message, $code);
     }
 
     /**
-     * Api function to delete a product if found
+     * Api function to delete a Product if found
      * 
      * @param Product $product
      * @return Response
@@ -201,10 +210,12 @@ class ApiProductController extends AbstractController
      */
     public function removeArticle(Product $product = null)
     {
+        // We send a Response if Product not found
         if($product == null){
             return new Response('Ce produit n\'existe pas. Inutile de le supprimer', 404);
         }
 
+        // We remove the Product from database and send confirmation message in Response
         $manager = $this->getDoctrine()->getManager();
         $manager->remove($product);
         $manager->flush();

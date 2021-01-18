@@ -17,13 +17,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ApiBrandController extends AbstractController
 {
     /**
-     * Api function to get all the brands
+     * Api function to get all the Brands
+     * 
+     * @param BrandRepository $brandRepository
+     * @return Response
      * 
      * @Route("/api/brands/list", name="api_brands_list", methods={"GET"})
      */
     public function index(BrandRepository $brandRepository): Response
     {
-        // Getting all the brands
+        // Getting all the Brands
         $brands = $brandRepository->findAll();
 
         // We use JSON Encoder
@@ -50,7 +53,7 @@ class ApiBrandController extends AbstractController
     }
 
     /**
-     * Api function to get only one brand
+     * Api function to get only one Brand
      * 
      * @param Brand $brand
      * @return Response
@@ -59,6 +62,7 @@ class ApiBrandController extends AbstractController
      */
     public function getSearchedBrand(Brand $brand = null): Response
     {
+        // We give a direct 404 Error if no Brand found for that id
         if ($brand == null) {
             $error = 404;
             return new Response('La marque recherchée n\'a pas été trouvée', $error);
@@ -88,7 +92,7 @@ class ApiBrandController extends AbstractController
     }
 
     /**
-     * Api function to add a brand
+     * Api function to add a Brand
      * 
      * @param Request $request
      * @return Response
@@ -102,10 +106,10 @@ class ApiBrandController extends AbstractController
 
         $slugify = new Slugify();
         $manager = $this->getDoctrine()->getManager();
-        // We decode the brands received
+        // We decode the Brand received
         $brandData = json_decode($request->getContent());
 
-        // With the data form brands, we hydrate our objects
+        // With the data from Brand, we hydrate our object
         try {
             $brand->setName($brandData->name)
                 ->setLogo($brandData->logo)
@@ -117,8 +121,10 @@ class ApiBrandController extends AbstractController
             $manager->persist($brand);
             $manager->flush();
         } catch (Exception $e) {
+            // Data Exception
             return new Response('Les données saisies sont invalides', 500);
         } catch (\Exception $e) {
+            // Other Exceptions
             return new Response($e->getMessage(), 500);
         }
 
@@ -126,7 +132,7 @@ class ApiBrandController extends AbstractController
     }
 
     /**
-     * Api function to edit a brand and create it if not found
+     * Api function to edit a Brand and create it if not found
      * 
      * @param Brand $brand
      * @param Request $request
@@ -137,23 +143,22 @@ class ApiBrandController extends AbstractController
     public function editArticle(Brand $brand = null, Request $request)
     {
 
-        // On décode les données envoyées
+        // We decode sent data
         $brandData = json_decode($request->getContent());
         $slugify = new Slugify();
         $manager = $this->getDoctrine()->getManager();
 
-        // On initialise le code de réponse
+        // We initialize the return code
         $code = 200;
 
-        // Si l'brand n'est pas trouvé
+        // If Brand not found
         if ($brand == null) {
-            // On instancie un nouvel brand
+            // We create a new Brand and change response code
             $brand = new Brand();
-            // On change le code de réponse
             $code = 201;
         }
 
-        // With the data form brands, we hydrate our objects
+        // With the data from Brand, we hydrate our object
         try {
             $brand->setName($brandData->name)
                 ->setLogo($brandData->logo)
@@ -165,27 +170,30 @@ class ApiBrandController extends AbstractController
             $manager->persist($brand);
             $manager->flush();
         } catch (Exception $e) {
+            // Data Exception
             return new Response('Les données saisies sont invalides', 500);
         } catch (\Exception $e) {
+            // Other Exceptions
             return new Response($e->getMessage(), 500);
         }
 
-        // On sauvegarde en base
+        // We save in database
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($brand);
         $entityManager->flush();
 
+        // We initialize the message (edit or new Brand)
         if($code == 200){
             $message = "Cette marque a bien été modifiée";
         } else {
             $message = "Cette marque n'ayant pas été trouvée, elle a été créée à la place";
         }
-        // On retourne la confirmation
+        // And we send the Response
         return new Response($message, $code);
     }
 
     /**
-     * Api function to delete a brand if found
+     * Api function to delete a Brand if found
      * 
      * @param Brand $brand
      * @return Response
@@ -194,10 +202,12 @@ class ApiBrandController extends AbstractController
      */
     public function removeArticle(Brand $brand = null)
     {
+        // We send a Response if Brand not found
         if($brand == null){
             return new Response('Cette marque n\'existe pas. Inutile de la supprimer', 404);
         }
 
+        // We remove the Brand from database and send confirmation message in Response
         $manager = $this->getDoctrine()->getManager();
         $manager->remove($brand);
         $manager->flush();
