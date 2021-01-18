@@ -44,6 +44,26 @@ class ProductController extends AbstractController
     }
 
     /**
+     * Shows a detailled view of the Product chosen
+     * 
+     * @param Product $product
+     * @return Response
+     * 
+     * @Route("/product/view/{product}", name="product_view")
+     */
+    public function getBrand(Product $product = null){
+        // If Product not found, then we redirect the user to the Products index page
+        if ($product == null) {
+            $this->addFlash('danger', "Le produit que vous essayez de visionner n'existe pas");
+            return $this->redirectToRoute("product_index");
+        }
+
+        return $this->render('product/view.html.twig', [
+            'product' => $product
+        ]);
+    }
+
+    /**
      * Adds a Product to the database form the form submitted
      * 
      * @param Request $request

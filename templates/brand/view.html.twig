@@ -40,6 +40,7 @@
 
 		{% if brand.products | length > 0 %}
 			<div class="table-responsive mt-5">
+				<h2 class="text-center">Liste des produits de la marque ({{brand.products | length}})</h2>
 				<table class="table table-hover table-stripped">
 					<thead class="thead-dark">
 						<tr>
@@ -64,9 +65,6 @@
 								</td>
 								<td>
 									<i>{{product.description}}</i>
-									<br/>
-									Produit de la marque:
-									{{product.brand.name}}
 								</td>
 								<td>
 									<a href="{{ path('product_edit', {'product':product.id} ) }}" class="btn btn-warning">
