@@ -55,7 +55,7 @@
 						{% for product in brand.products %}
 							<tr>
 								<td>
-									<strong>{{product.name}}</strong>
+									<strong><a href="{{path('product_view',{'product':product.id})}}">{{product.name}}</a></strong>
 								</td>
 								<td>
 									{{product.creationDate | date("d/m/Y")}}

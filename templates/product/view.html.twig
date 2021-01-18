@@ -27,71 +27,19 @@
 						Prix:
 						<strong>{{product.price | number_format(2,'.',',')}}</strong>
 						<br/>
+                        Marque:
+                        <strong><a href="{{path('brand_view', {'brand':product.brand.id})}}">{{product.brand.name}}</a>
                         <div class="text-center">
-						<a href="{{ path('brand_edit', {'brand': product.brand.id} ) }}" class="btn btn-warning">
-                            <i class="fas fa-pen"></i>
-                        </a>
-                        <a href="{{ path('brand_delete', {'brand': product.brand.id})}}" class="btn btn-danger">
-                            <i class='fas fa-trash'></i>
-                        </a>
-
+                            <a href="{{ path('brand_edit', {'brand': product.brand.id} ) }}" class="btn btn-warning">
+                                <i class="fas fa-pen"></i>
+                            </a>
+                            <a href="{{ path('brand_delete', {'brand': product.brand.id})}}" class="btn btn-danger">
+                                <i class='fas fa-trash'></i>
+                            </a>
                         </div>
 					</p>
 				</div>
 			</div>
 		</div>
-
-		{% if product.brand.products | length > 0 %}
-			<div class="table-responsive mt-5">
-				<h2 class="text-center">Marque à laquelle appartient ce produit</h2>
-				<table class="table table-hover table-stripped">
-					<thead class="thead-dark">
-						<tr>
-							<th>Logo</th>
-                            <th>Nom</th>
-                            <th>Nationalité</th>
-                            <th>Date de création</th>
-                            <th>Plus d'informations</th>
-                            <th>-</th>
-						</tr>
-					</thead>
-					<tbody>
-                        <tr>
-                            <td>
-                                <image src="{{product.brand.logo}}" alt="Logo de la marque {{product.brand.name}}" class="logo-medium">
-                            </td>
-                            <td>
-                                <strong><a href="{{path('brand_view', {'brand':product.brand.id})}}">{{product.brand.name}}</a></strong>
-                            </td>
-                            <td>
-                                {{product.brand.nationality}}
-                            </td>
-                            <td>
-                                {{product.brand.creationDate | date("d/m/Y")}}
-                            </td>
-                            <td>
-                                "<i>{{product.brand.slogan}}</i>"
-                                <br/>
-                                <i class="fas fa-desktop"></i>
-                                <a href="{{product.brand.website}}">Site web
-                                    {{product.brand.name}}</a>
-                                <br/>
-                                Cette marque possède
-                                {{product.brand.products | length}}
-                                produit(s)
-                            </td>
-                            <td>
-                                <a href="{{ path('brand_edit', {'brand': product.brand.id} ) }}" class="btn btn-warning">
-                                    <i class="fas fa-pen"></i>
-                                </a>
-                                <a href="{{ path('brand_delete', {'brand': product.brand.id})}}" class="btn btn-danger">
-                                    <i class='fas fa-trash'></i>
-                                </a>
-                            </td>
-                        </tr>
-					</tbody>
-				</table>
-			</div>
-		{% endif %}
 	</div>
 {% endblock %}
