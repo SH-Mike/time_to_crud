@@ -60,6 +60,10 @@ class ProductController extends AbstractController
         // Request handling to check if the form has been submitted
         $addForm->handleRequest($request);
         if ($addForm->isSubmitted() && $addForm->isValid()) {
+            // Checking the integrity of Product price
+            if(!is_numeric($product->getPrice()) || $product->getPrice() < 0){
+                $product->setPrice(0);
+            }
             $product->setSlug($slugify->slugify($product->getName()));
             // Persistence in database 
             $manager = $this->getDoctrine()->getManager();
@@ -96,6 +100,10 @@ class ProductController extends AbstractController
         // Request handling to check if the form has been submitted
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            // Checking the integrity of Product price
+            if(!is_numeric($product->getPrice()) || $product->getPrice() < 0){
+                $product->setPrice(0);
+            }
             $product->setSlug($slugify->slugify($product->getName()));
             // Persistence in database 
             $manager = $this->getDoctrine()->getManager();
